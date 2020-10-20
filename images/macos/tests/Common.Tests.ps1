@@ -306,23 +306,6 @@ Describe "Rust" -Skip:($os.IsHighSierra) {
     }
 }
 
-Describe "Haskell" -Skip:($os.IsHighSierra) {
-    It "GHCup" {
-        "ghcup --version" | Should -ReturnZeroExitCode
-    }
-
-    It "GHC" {
-        "ghc --version" | Should -ReturnZeroExitCode
-    }
-
-    It "Cabal" {
-        "cabal --version" | Should -ReturnZeroExitCode
-    }
-
-    It "Stack" {
-        "stack --version" | Should -ReturnZeroExitCode
-    }
-}
 
 Describe "Clang/LLVM" -Skip:($os.IsHighSierra) {
     It "Clang/LLVM is installed" {
