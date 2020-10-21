@@ -251,7 +251,6 @@
                 "{{ template_dir }}/scripts/Installers/Install-Toolset.ps1",
                 "{{ template_dir }}/scripts/Installers/Configure-Toolset.ps1",
                 "{{ template_dir }}/scripts/Installers/Install-YAMLLint.ps1",
-                "{{ template_dir }}/scripts/Installers/Update-AndroidSDK.ps1",
                 "{{ template_dir }}/scripts/Installers/Install-AzureModules.ps1"
             ]
         },
@@ -349,22 +348,6 @@
                 "PSMODULES_ROOT_FOLDER={{user `psmodules_root_folder`}}",
                 "ROOT_FOLDER={{user `root_folder`}}"
             ]
-        },
-        {
-            "type": "powershell",
-            "inline": [
-                "pwsh -File '{{user `image_folder`}}\\SoftwareReport\\SoftwareReport.Generator.ps1'"
-            ],
-            "environment_vars": [
-                "TOOLSET_JSON_PATH={{user `toolset_json_path`}}",
-                "ANNOUNCEMENTS={{user `announcements`}}"
-            ]
-        },
-        {
-            "type": "file",
-            "source": "C:\\InstalledSoftware.md",
-            "destination": "{{ template_dir }}/Windows2019-Readme.md",
-            "direction": "download"
         },
         {
             "type": "powershell",
