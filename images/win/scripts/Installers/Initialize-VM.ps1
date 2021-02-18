@@ -33,6 +33,11 @@ function Disable-UserAccessControl {
 # Enable $ErrorActionPreference='Stop' for AllUsersAllHosts
 Add-Content -Path $profile.AllUsersAllHosts -Value '$ErrorActionPreference="Stop"'
 
+# Set static env vars
+setx ImageVersion $env:IMAGE_VERSION /m
+setx ImageOS $env:IMAGE_OS /m
+setx AGENT_TOOLSDIRECTORY $env:AGENT_TOOLSDIRECTORY /m
+
 # Set TLS1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor "Tls12"
 
@@ -128,11 +133,7 @@ if (Test-IsWin19) {
 }
 
 # Expand disk size of OS drive
-New-Item -Path d:\ -Name cmds.txt -ItemType File -Force
-Add-Content -Path d:\cmds.txt "SELECT VOLUME=C`r`nEXTEND"
-
-$expandResult = (diskpart /s 'd:\cmds.txt')
-Write-Host $expandResult
-
-Write-Host "Disk sizes after expansion"
-wmic logicaldisk get size,freespace,caption
+$driveLetter = "C"
+$size = Get-PartitionSupportedSize -DriveLetter $driveLetter
+Resize-Partition -DriveLetter $driveLetter -Size $size.SizeMax
+Get-Volume | Select-Object DriveLetter, SizeRemaining, Size | Sort-Object DriveLetter
